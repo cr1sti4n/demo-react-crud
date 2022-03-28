@@ -1,12 +1,15 @@
 import React, { useState } from "react";
-//import { DB_PATH } from "../secret/db-data";
+import { Create } from '../api/customer'
 
 const FormContext = React.createContext({
   formData: {
     name: "",
-    language: "",
+    lastName: "",
+    dateBirth: "",
   },
   nameHandler: (event) => {},
+  lastNameHandler: (event) => {},
+  dateBirthHandler: (event) => {},
   languageHandler: (event) => {},
   submitForm: (closeModal) => {},
   isError: false,
@@ -16,7 +19,8 @@ const FormContext = React.createContext({
 
 export const FormContextProvider = (props) => {
   const [nameText, setNameText] = useState("");
-  const [languageText, setLanguageText] = useState("");
+  const [lastNameText, setLasNameText] = useState("");
+  const [dateBirthText, setDateBirthText] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -24,21 +28,26 @@ export const FormContextProvider = (props) => {
     setNameText(event.target.value);
   };
 
-  const languageChangeHandler = (event) => {
-    setLanguageText(event.target.value);
+  const lastNameChangeHandler = (event) => {
+    setLasNameText(event.target.value);
   };
+
+  const dateBirthChangeHandler = (event) => {
+    setDateBirthText(event.target.value);
+  };
+
 
   const toggleErrorHandler = (value) => {
     setError(value);
   };
 
   const submitFormHandler = async (closeModal) => {
-    if (nameText.trim().length === 0 || languageText.trim().length === 0) {
+    if (nameText.trim().length === 0 || lastNameText.trim().length === 0 || dateBirthText.trim().length === 0) {
       setError(true);
       return;
     }
     setLoading(true);
-    await sendNewData(nameText, languageText);
+    await sendNewData(nameText, lastNameText, dateBirthText);
     setLoading(false);
     closeModal();
   };
@@ -48,11 +57,13 @@ export const FormContextProvider = (props) => {
       value={{
         formData: {
           name: nameText,
-          language: languageText,
+          lastName: lastNameText,
+          dateBirth: dateBirthText,
         },
         submitForm: submitFormHandler,
         nameHandler: nameChangeHandler,
-        languageHandler: languageChangeHandler,
+        lastNameHandler: lastNameChangeHandler,
+        dateBirthHandler: dateBirthChangeHandler,
         isError: error,
         toggleError: toggleErrorHandler,
         isLoading: loading,
@@ -63,14 +74,9 @@ export const FormContextProvider = (props) => {
   );
 };
 
-const sendNewData = async (name, language) => {
-  await fetch('' + "data.json", {
-    method: "POST",
-    body: JSON.stringify({
-      name: name,
-      language: language,
-    }),
-  });
+const sendNewData = async (name, lastName, dateBirth) => {
+  const {data} = await Create({name, lastName, dateBirth});
+  console.log(data)
 };
 
 export default FormContext;

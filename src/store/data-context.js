@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-//import { DB_PATH } from "../secret/db-data";
+import { Get } from '../api/customer'
 
 const DataContext = React.createContext({
   data: [],
@@ -13,18 +13,8 @@ export const DataContextProvider = (props) => {
 
   const fetchDataHandler = async () => {
     setLoading(true);
-    const response = await fetch('https://jsonplaceholder.typicode.com/todos');
-    const resData = await response.json();
-
-    let fetchedData = [];
-    for (const key in resData) {
-      fetchedData.push({
-        name: resData[key].name,
-        language: resData[key].language,
-      });
-    }
-
-    setData(fetchedData);
+    const {data} = await Get();
+    setData(data);
     setLoading(false);
   };
 

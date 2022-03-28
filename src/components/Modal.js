@@ -13,7 +13,7 @@ const MyModal = (props) => {
   return (
     <Modal show={props.show} onHide={props.onClose} centered>
       <Modal.Header closeButton>
-        <Modal.Title>Add New Data</Modal.Title>
+        <Modal.Title>Agregar nuevo registro</Modal.Title>
       </Modal.Header>
       <Modal.Body className={modalBodyClassName}>
         {formCtx.isLoading ? <Spinner animation='border' /> : <Form />}
@@ -24,7 +24,7 @@ const MyModal = (props) => {
             variant='primary'
             onClick={() => formCtx.submitForm(props.onClose)}
           >
-            Add Data
+            Guardar
           </Button>
         </Modal.Footer>
       )}

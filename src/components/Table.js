@@ -2,12 +2,14 @@ import { Table } from "react-bootstrap";
 
 const MyTable = (props) => {
   return (
-    <Table className='w-50 table-bordered text-center'>
-      <thead className='table-dark'>
+    <Table className='table w-50 table-bordered text-center'>
+      <thead className='tabetable-dark'>
         <tr>
-          <th>No</th>
-          <th>Name</th>
-          <th>Language</th>
+          <th>#</th>
+          <th>Nombre</th>
+          <th>Apellido</th>
+          <th>Fecha Nac.</th>
+
         </tr>
       </thead>
       <tbody>
@@ -16,7 +18,9 @@ const MyTable = (props) => {
             <tr key={i + 1}>
               <td>{i + 1}</td>
               <td>{d.name}</td>
-              <td>{d.language}</td>
+              <td>{d.lastName}</td>
+              <td>{d.dateBirth}</td>
+
             </tr>
           );
         })}
