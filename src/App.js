@@ -11,7 +11,6 @@ function App() {
   const formCtx = useContext(FormContext);
   const dataCtx = useContext(DataContext);
   const [showModal, setShowModal] = useState(false);
-  const [average, setAverage] = useState(0);
 
   const showModalHandler = () => {
     setShowModal(true);
@@ -21,23 +20,17 @@ function App() {
     formCtx.toggleError(false);
     setShowModal(false);
     dataCtx.fetchData();
-    getAverage();
   };
 
-  const getAverage = async () => {
-    const {data} = await Get()
-    setAverage(data.average)
-  } 
 
   // FETCH DATA
   useEffect(() => {
     dataCtx.fetchData();
-    getAverage()
   }, []);
 
   return (
     <div className='container-fluid d-flex align-items-center flex-column'>
-      <h1 className='p-5'>DEMO REACT</h1>
+      <h1 className='p-5'>DEMO REACT USERS</h1>
       {dataCtx.isLoading ? (
         <Spinner animation='border' />
       ) : (
@@ -47,9 +40,6 @@ function App() {
           </Button>
           <Modal show={showModal} onClose={closeModalHandler} />
           <Table data={dataCtx.data} />
-          <h2>
-             <Badge bg="secondary">Promedio: {average}</Badge>
-          </h2>
         </>
       )}
     </div>

@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { Create } from '../api/customer'
+import { Create } from '../api/user'
 
 const FormContext = React.createContext({
   formData: {
     name: "",
     lastName: "",
-    dateBirth: "",
+    email: "",
   },
   nameHandler: (event) => {},
   lastNameHandler: (event) => {},
-  dateBirthHandler: (event) => {},
+  emailHandler: (event) => {},
   languageHandler: (event) => {},
   submitForm: (closeModal) => {},
   isError: false,
@@ -20,8 +20,8 @@ const FormContext = React.createContext({
 export const FormContextProvider = (props) => {
   const [nameText, setNameText] = useState("");
   const [lastNameText, setLasNameText] = useState("");
-  const [dateBirthText, setDateBirthText] = useState("");
-  const [error, setError] = useState(false);
+  const [emailText, setEmailText] = useState("");
+  const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
 
   const nameChangeHandler = (event) => {
@@ -32,8 +32,8 @@ export const FormContextProvider = (props) => {
     setLasNameText(event.target.value);
   };
 
-  const dateBirthChangeHandler = (event) => {
-    setDateBirthText(event.target.value);
+  const emailChangeHandler = (event) => {
+    setEmailText(event.target.value);
   };
 
 
@@ -41,13 +41,24 @@ export const FormContextProvider = (props) => {
     setError(value);
   };
 
+  const validateEmail = (email) => {
+        var re = /\S+@\S+\.\S+/;
+        return re.test(email);
+  }
+
   const submitFormHandler = async (closeModal) => {
-    if (nameText.trim().length === 0 || lastNameText.trim().length === 0 || dateBirthText.trim().length === 0) {
-      setError(true);
+
+    if (nameText.trim().length === 0 || lastNameText.trim().length === 0 || emailText.trim().length === 0) {
+      setError("Debe completar los campos.");
       return;
     }
+    if(!validateEmail(emailText)) {
+      setError("Debe ingresar un email valido.");
+      return;
+    }
+
     setLoading(true);
-    await sendNewData(nameText, lastNameText, dateBirthText);
+    await sendNewData(nameText, lastNameText, emailText);
     setLoading(false);
     closeModal();
   };
@@ -58,12 +69,12 @@ export const FormContextProvider = (props) => {
         formData: {
           name: nameText,
           lastName: lastNameText,
-          dateBirth: dateBirthText,
+          email: emailText,
         },
         submitForm: submitFormHandler,
         nameHandler: nameChangeHandler,
         lastNameHandler: lastNameChangeHandler,
-        dateBirthHandler: dateBirthChangeHandler,
+        emailHandler: emailChangeHandler,
         isError: error,
         toggleError: toggleErrorHandler,
         isLoading: loading,
@@ -74,8 +85,8 @@ export const FormContextProvider = (props) => {
   );
 };
 
-const sendNewData = async (name, lastName, dateBirth) => {
-  const {data} = await Create({name, lastName, dateBirth});
+const sendNewData = async (name, lastName, email) => {
+  const {data} = await Create({name, lastName, email});
   console.log(data)
 };
 

@@ -19,7 +19,7 @@ const MyTable = (props) => {
               <td>{i + 1}</td>
               <td>{d.name}</td>
               <td>{d.lastName}</td>
-              <td>{d.dateBirth}</td>
+              <td>{d.email}</td>
 
             </tr>
           );

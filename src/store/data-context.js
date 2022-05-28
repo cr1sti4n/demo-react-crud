@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Get } from '../api/customer'
+import { Get } from '../api/user'
 
 const DataContext = React.createContext({
   data: [],

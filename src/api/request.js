@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // create an axios instance
 const service = axios.create({
-  baseURL: process.env.API_URL || 'http://localhost:3001', 
+  baseURL: process.env.API_URL || 'http://localhost:8080', 
   timeout: 10000
 })
 
